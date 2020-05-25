@@ -1,0 +1,53 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Ball.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/Engine.h"
+#include "UObject/ConstructorHelpers.h"
+
+
+// Sets default values
+ABall::ABall()
+{
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
+	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	RootComponent = CollisionComponent;
+	//オブジェクトだけ作成　アタッチはShootInDirection()で行う
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
+	//試しているだけ
+	InitialLifeSpan = 0;
+}
+
+// Called when the game starts or when spawned
+void ABall::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+// Called every frame
+void ABall::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+
+void ABall::ShootInDirection(FVector ShootDirection)
+{
+	//BallPawn::shootが呼び出されたらConponentをアタッチしVelocityを設定しBallを動かす
+	//無理やりBallPawnとの座標の差を埋める
+	ShootDirection = ShootDirection - FVector(200.0f, 0.0f, -100.0f);
+
+	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
+	ProjectileMovementComponent->InitialSpeed = 2.0f;
+	ProjectileMovementComponent->MaxSpeed = 10000.0f;
+	ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	ProjectileMovementComponent->bShouldBounce = true;
+	ProjectileMovementComponent->Bounciness = 0.8f;
+	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+
+}
