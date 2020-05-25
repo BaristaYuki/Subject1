@@ -29,8 +29,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION()
-		void MoveForward();
+	
+	void MoveForward();
 
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* CameraComponent;
@@ -38,10 +38,11 @@ public:
 		UStaticMeshComponent* ShootTargetMesh;
 
 	//É{Å[ÉãÇèRÇÈä÷êî
-	UFUNCTION()
-		void Shoot();
-
+	UFUNCTION(BluePrintCallable)
+	void Shoot();
+	UFUNCTION(BluePrintCallable)
 	void SetPosition();
+
 	void SpawnBall();
 	void MoveTargetY(float AxisValue);
 	void MoveTargetZ(float AxisValue);
@@ -56,6 +57,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FRotator TargetRotation;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = Ball)
 		TSubclassOf<class ABall>BallClass;

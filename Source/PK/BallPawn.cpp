@@ -28,9 +28,7 @@ ABallPawn::ABallPawn()
 	if (SphereVisualAsset.Succeeded()) {
 		ShootTargetMesh->SetStaticMesh(SphereVisualAsset.Object);
 		//ゴール平面上で動かしたい
-		
 		ShootTargetMesh->SetRelativeLocation(RootLocation-TargetDirection + FVector(0.0f, 0.0f, 100.0f));
-		//ShootTargetMesh->SetRelativeLocation(ShootingPoint);
 	}
 
 	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(this, 0);
@@ -64,7 +62,6 @@ void ABallPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ABallPawn::MoveForward()
 {
 	SetPosition();
-	//SpawnBall();
 }
 
 
@@ -100,7 +97,6 @@ void ABallPawn::SpawnBall()
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Born")), true, FVector2D(3.0f, 3.0f));
 		}
 	}
-
 }
 
 //マウスのX軸とバインドしてゴール平面に対して横方向のベクトルの値の設定
