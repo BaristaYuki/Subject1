@@ -37,4 +37,5 @@ public:
 
 	void ShootInDirection(FVector ShootDirection);
 
+
 };

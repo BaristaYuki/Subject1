@@ -26,4 +26,23 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void DecideDirection();
+
+	UFUNCTION(BluePrintCallable)
+	void Init();
+	UFUNCTION(BluePrintCallable)
+	void MoveRightUp();
+	UFUNCTION(BluePrintCallable)
+	void MoveRightDown();
+	UFUNCTION(BluePrintCallable)
+	void MoveLeftUp();
+	UFUNCTION(BluePrintCallable)
+	void MoveLeftDown();
+
+	UPROPERTY(EditAnywhere)
+	bool Kicked;
+
+private:
+	int32 seed;
+
 };

@@ -40,14 +40,14 @@ void ABall::ShootInDirection(FVector ShootDirection)
 {
 	//BallPawn::shootが呼び出されたらConponentをアタッチしVelocityを設定しBallを動かす
 	//無理やりBallPawnとの座標の差を埋める
-	ShootDirection = ShootDirection - FVector(200.0f, 0.0f, -100.0f);
+	ShootDirection = ShootDirection - FVector(200.0f, 0.0f, 0.0f);
 
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = 2.0f;
 	ProjectileMovementComponent->MaxSpeed = 10000.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;
-	ProjectileMovementComponent->Bounciness = 0.8f;
+	ProjectileMovementComponent->Bounciness = 0.6f;
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 
 }
