@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TimerManager.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GoalKeeper.generated.h"
@@ -26,8 +27,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BluePrintCallable)
 	void DecideDirection();
-
 	UFUNCTION(BluePrintCallable)
 	void Init();
 	UFUNCTION(BluePrintCallable)
@@ -39,10 +40,20 @@ public:
 	UFUNCTION(BluePrintCallable)
 	void MoveLeftDown();
 
+	void CheckTimer();
+	void MoveKeeper();
+	
+	FTimerHandle CountdownTimerHandle;
+
 	UPROPERTY(EditAnywhere)
-	bool Kicked;
+	int32 CountdownTime;
+
+	UPROPERTY(EditAnyWhere)
+	FVector Loc;
 
 private:
 	int32 seed;
+	int32 Y_Move;
+	int32 Z_Move;
 
 };

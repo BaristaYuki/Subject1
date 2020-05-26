@@ -10,8 +10,10 @@
 AGoalKeeper::AGoalKeeper()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	Kicked = false;
+	PrimaryActorTick.bCanEverTick = false;
+
+	//Keeper‚Ì‰ŠúˆÊ’u
+	Loc = FVector(-450.0f, 0.0f, 79.0f);
 }
 
 // Called when the game starts or when spawned
@@ -37,45 +39,85 @@ void AGoalKeeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AGoalKeeper::DecideDirection()
 {
-	seed = FMath::RandRange(0, 3);
+	/*seed = FMath::RandRange(0, 3);
 	if (seed == 0)
 	{
-		MoveRightUp();
+		GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveRightUp, 0.05f, true);
 	}
 	else if (seed == 1)
 	{
-		MoveRightDown();
+		GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveRightDown, 0.05f, true);
 	}
 	else if (seed == 2)
 	{
-		MoveLeftUp();
+		GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveLeftUp, 0.05f, true);
 	}
 	else if (seed == 3)
 	{
-		MoveLeftDown();
-	}
+		GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveLeftDown, 0.05f, true);
+	}*/
 
-	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Yellow, FString::FromInt(seed), true, FVector2D(3.0f, 3.0f));
+
+	Z_Move = FMath::RandRange(0, 30);
+	Y_Move = FMath::RandRange(-30, 30);
+	GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveKeeper, 0.05f, true);
 }
 
 
 void AGoalKeeper::Init()
 {
+	Loc = FVector(-480.0f, 0.0f, 79.0f);
+	SetActorLocation(Loc);
+	GetWorldTimerManager().ClearTimer(CountdownTimerHandle);
+	CountdownTime = 10;
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Init"), true, FVector2D(3.0f, 3.0f));
 }
+
 
 void AGoalKeeper::MoveRightUp()
 {
+	Loc.Y += 20.0f;
+	Loc.Z += 5.0f;
+	SetActorLocation(Loc);
+	CheckTimer();
 }
 
 void AGoalKeeper::MoveRightDown()
 {
+	Loc.Y += 20.0f;
+	SetActorLocation(Loc);
+	CheckTimer();
 }
 
 void AGoalKeeper::MoveLeftUp()
 {
+	Loc.Y -= 20.0f;
+	Loc.Z += 5.0f;
+	SetActorLocation(Loc);
+	CheckTimer();
 }
 
 void AGoalKeeper::MoveLeftDown()
 {
+	Loc.Y -= 20.0f;
+	SetActorLocation(Loc);
+	CheckTimer();
 }
 
+void AGoalKeeper::CheckTimer()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(CountdownTime), true, FVector2D(3.0f, 3.0f));
+	CountdownTime--;
+	if (CountdownTime < 0)
+	{
+		Init();
+	}
+}
+
+void AGoalKeeper::MoveKeeper()
+{
+	Loc.Y += Y_Move;
+	Loc.Z += Z_Move;
+	SetActorLocation(Loc);
+	CheckTimer();
+}

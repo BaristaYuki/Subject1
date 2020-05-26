@@ -13,7 +13,7 @@
 ABallPawn::ABallPawn()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	//Camera‚ðƒZƒbƒg
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("UScene"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("MyCamera"));
@@ -32,6 +32,7 @@ ABallPawn::ABallPawn()
 	}
 
 	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	Kicked = false;
 }
 
 // Called when the game starts or when spawned
@@ -72,13 +73,14 @@ void ABallPawn::Shoot()
 
 	if (Ball)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Shoot")), true, FVector2D(3.0f, 3.0f));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Shoot")), true, FVector2D(3.0f, 3.0f));
 		//FVector Direction = TargetRotation.Vector();
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TargetDirection.ToString(), true, FVector2D(3.0f, 3.0f));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TargetDirection.ToString(), true, FVector2D(3.0f, 3.0f));
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, (RootLocation - TargetDirection + FVector(0.0f, 0.0f, 0.0f)).ToString(), true, FVector2D(3.0f, 3.0f));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, (RootLocation - TargetDirection + FVector(0.0f, 0.0f, 0.0f)).ToString(), true, FVector2D(3.0f, 3.0f));
 		Ball->ShootInDirection(TargetDirection);
 	}
+	
 
 }
 

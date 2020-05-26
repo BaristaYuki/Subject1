@@ -67,5 +67,8 @@ public:
 
 	//１つだけBallをインスタンス化する
 	ABall* Ball;
+	UPROPERTY(BluePrintReadWrite)
+	bool Kicked;
 
+private:
 };
