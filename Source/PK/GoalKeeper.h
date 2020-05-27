@@ -31,14 +31,10 @@ public:
 	void DecideDirection();
 	UFUNCTION(BluePrintCallable)
 	void Init();
-	UFUNCTION(BluePrintCallable)
-	void MoveRightUp();
-	UFUNCTION(BluePrintCallable)
-	void MoveRightDown();
-	UFUNCTION(BluePrintCallable)
-	void MoveLeftUp();
-	UFUNCTION(BluePrintCallable)
-	void MoveLeftDown();
+	UFUNCTION()
+	void MoveRight(float value);
+	UFUNCTION()
+	void MoveLeft(float value);
 
 	void CheckTimer();
 	void MoveKeeper();

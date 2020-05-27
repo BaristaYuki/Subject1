@@ -80,8 +80,6 @@ void ABallPawn::Shoot()
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, (RootLocation - TargetDirection + FVector(0.0f, 0.0f, 0.0f)).ToString(), true, FVector2D(3.0f, 3.0f));
 		Ball->ShootInDirection(TargetDirection);
 	}
-	
-
 }
 
 void ABallPawn::SpawnBall()

@@ -35,7 +35,6 @@ void ABall::Tick(float DeltaTime)
 
 }
 
-
 void ABall::ShootInDirection(FVector ShootDirection)
 {
 	//BallPawn::shootが呼び出されたらConponentをアタッチしVelocityを設定しBallを動かす
@@ -43,7 +42,7 @@ void ABall::ShootInDirection(FVector ShootDirection)
 	ShootDirection = ShootDirection - FVector(200.0f, 0.0f, 0.0f);
 
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-	ProjectileMovementComponent->InitialSpeed = 2.0f;
+	ProjectileMovementComponent->InitialSpeed = 1.8f;
 	ProjectileMovementComponent->MaxSpeed = 10000.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;

@@ -2,6 +2,8 @@
 
 
 #include "GoalKeeper.h"
+#include "GameFramework/PlayerController.h"
+#include "Components/InputComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "Engine/Engine.h"
 
@@ -34,6 +36,8 @@ void AGoalKeeper::Tick(float DeltaTime)
 void AGoalKeeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AGoalKeeper::MoveRight);
+	PlayerInputComponent->BindAxis("MoveLeft", this, &AGoalKeeper::MoveLeft);
 
 }
 
@@ -63,7 +67,7 @@ void AGoalKeeper::DecideDirection()
 	GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveKeeper, 0.05f, true);
 }
 
-
+//キーパーの場所とTimerをリセットする
 void AGoalKeeper::Init()
 {
 	Loc = FVector(-480.0f, 0.0f, 79.0f);
@@ -74,36 +78,7 @@ void AGoalKeeper::Init()
 }
 
 
-void AGoalKeeper::MoveRightUp()
-{
-	Loc.Y += 20.0f;
-	Loc.Z += 5.0f;
-	SetActorLocation(Loc);
-	CheckTimer();
-}
-
-void AGoalKeeper::MoveRightDown()
-{
-	Loc.Y += 20.0f;
-	SetActorLocation(Loc);
-	CheckTimer();
-}
-
-void AGoalKeeper::MoveLeftUp()
-{
-	Loc.Y -= 20.0f;
-	Loc.Z += 5.0f;
-	SetActorLocation(Loc);
-	CheckTimer();
-}
-
-void AGoalKeeper::MoveLeftDown()
-{
-	Loc.Y -= 20.0f;
-	SetActorLocation(Loc);
-	CheckTimer();
-}
-
+//Timerのチェック
 void AGoalKeeper::CheckTimer()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(CountdownTime), true, FVector2D(3.0f, 3.0f));
@@ -114,10 +89,25 @@ void AGoalKeeper::CheckTimer()
 	}
 }
 
+//適当に乱数を発生させて0.05秒ずつ座標を更新
 void AGoalKeeper::MoveKeeper()
 {
 	Loc.Y += Y_Move;
 	Loc.Z += Z_Move;
 	SetActorLocation(Loc);
 	CheckTimer();
+}
+
+void AGoalKeeper::MoveRight(float value)
+{
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	AddMovementInput(Direction, value);
+
+}
+
+void AGoalKeeper::MoveLeft(float value)
+{
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	AddMovementInput(Direction, value);
+
 }
