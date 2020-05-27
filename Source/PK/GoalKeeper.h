@@ -35,6 +35,10 @@ public:
 	void MoveRight(float value);
 	UFUNCTION()
 	void MoveLeft(float value);
+	UFUNCTION()
+	void StartJump();
+	UFUNCTION()
+	void StopJump();
 
 	void CheckTimer();
 	void MoveKeeper();

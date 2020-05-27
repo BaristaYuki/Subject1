@@ -38,6 +38,8 @@ void AGoalKeeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGoalKeeper::MoveRight);
 	PlayerInputComponent->BindAxis("MoveLeft", this, &AGoalKeeper::MoveLeft);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AGoalKeeper::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AGoalKeeper::StopJump);
 
 }
 
@@ -110,4 +112,14 @@ void AGoalKeeper::MoveLeft(float value)
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, value);
 
+}
+
+void AGoalKeeper::StartJump()
+{
+	bPressedJump = true;
+}
+
+void AGoalKeeper::StopJump()
+{
+	bPressedJump = false;
 }

@@ -30,9 +30,8 @@ ABallPawn::ABallPawn()
 		//ƒS[ƒ‹•½–Êã‚Å“®‚©‚µ‚½‚¢
 		ShootTargetMesh->SetRelativeLocation(RootLocation-TargetDirection + FVector(0.0f, 0.0f, 100.0f));
 	}
-
-	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	Kicked = false;
+	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(this, 0);
 }
 
 // Called when the game starts or when spawned
@@ -71,7 +70,7 @@ void ABallPawn::Shoot()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Yellow, FString::Printf(TEXT("shoot")), true, FVector2D(3.0f, 3.0f));
 
-	if (Ball)
+	if (Ball && !Kicked)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Shoot")), true, FVector2D(3.0f, 3.0f));
 		//FVector Direction = TargetRotation.Vector();
@@ -79,6 +78,7 @@ void ABallPawn::Shoot()
 
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, (RootLocation - TargetDirection + FVector(0.0f, 0.0f, 0.0f)).ToString(), true, FVector2D(3.0f, 3.0f));
 		Ball->ShootInDirection(TargetDirection);
+		Kicked = true;
 	}
 }
 
@@ -128,5 +128,19 @@ void ABallPawn::SetPosition()
 	Ball->ProjectileMovementComponent->Velocity = FVector(0.0f, 0.0f, 0.0f);
 
 	Ball->SetActorLocation(ShootingPoint);
+	Kicked = false;
 
+}
+
+void ABallPawn::ShootRandom()
+{
+	if (!Kicked)
+	{
+		int32 seed_Y = FMath::RandRange(-320, 320);
+		int32 seed_Z = FMath::RandRange(0, 310);
+
+		TargetDirection = FVector(-500.0f, seed_Y, seed_Z);
+		Ball->ShootInDirection(TargetDirection);
+		Kicked = true;
+	}
 }

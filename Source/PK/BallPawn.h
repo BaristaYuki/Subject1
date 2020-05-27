@@ -42,11 +42,14 @@ public:
 	void Shoot();
 	UFUNCTION(BluePrintCallable)
 	void SetPosition();
+	UFUNCTION(BluePrintCallable)
+	void ShootRandom();
 
 	void SpawnBall();
 	void MoveTargetY(float AxisValue);
 	void MoveTargetZ(float AxisValue);
 	FVector Temp;
+	bool Kicked;
 
 	//ボールを蹴る座標
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
@@ -68,7 +71,8 @@ public:
 	//１つだけBallをインスタンス化する
 	ABall* Ball;
 	UPROPERTY(BluePrintReadWrite)
-	bool Kicked;
+	int32 Score_1P;
+	UPROPERTY(BluePrintReadWrite)
+	int32 Score_2P;
 
-private:
 };
