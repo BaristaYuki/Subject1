@@ -94,7 +94,7 @@ void ABallPawn::SpawnBall()
 
 		if (Ball)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Born")), true, FVector2D(3.0f, 3.0f));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Born")), true, FVector2D(3.0f, 3.0f));
 		}
 	}
 }

@@ -16,6 +16,7 @@ AGoalKeeper::AGoalKeeper()
 
 	//Keeperの初期位置
 	Loc = FVector(-450.0f, 0.0f, 79.0f);
+	Direction = FVector(0.0f, -1.0f, 0.0f);
 	
 }
 
@@ -77,14 +78,14 @@ void AGoalKeeper::Init()
 	SetActorLocation(Loc);
 	GetWorldTimerManager().ClearTimer(CountdownTimerHandle);
 	CountdownTime = 10;
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Init"), true, FVector2D(3.0f, 3.0f));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Init"), true, FVector2D(3.0f, 3.0f));
 }
 
 
 //Timerのチェック
 void AGoalKeeper::CheckTimer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(CountdownTime), true, FVector2D(3.0f, 3.0f));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(CountdownTime), true, FVector2D(3.0f, 3.0f));
 	CountdownTime--;
 	if (CountdownTime < 0)
 	{
@@ -104,13 +105,11 @@ void AGoalKeeper::MoveKeeper()
 //キーパー操作をしているときの移動
 void AGoalKeeper::MoveRight(float value)
 {
-	Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, value);
 }
 
 void AGoalKeeper::MoveLeft(float value)
 {
-	Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, value);
 }
 
@@ -123,3 +122,4 @@ void AGoalKeeper::StopJump()
 {
 	bPressedJump = false;
 }
+
