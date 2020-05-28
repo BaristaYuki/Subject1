@@ -4,9 +4,9 @@
 #include "GoalKeeper.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
+#include "Math/RotationMatrix.h"
 #include "Math/UnrealMathUtility.h"
 #include "Engine/Engine.h"
-
 
 // Sets default values
 AGoalKeeper::AGoalKeeper()
@@ -16,6 +16,7 @@ AGoalKeeper::AGoalKeeper()
 
 	//Keeperの初期位置
 	Loc = FVector(-450.0f, 0.0f, 79.0f);
+	
 }
 
 // Called when the game starts or when spawned
@@ -91,7 +92,7 @@ void AGoalKeeper::CheckTimer()
 	}
 }
 
-//適当に乱数を発生させて0.05秒ずつ座標を更新
+//適当に乱数を発生させて0.05秒ずつ座標を更新　キーパーを操作していないとき
 void AGoalKeeper::MoveKeeper()
 {
 	Loc.Y += Y_Move;
@@ -100,18 +101,17 @@ void AGoalKeeper::MoveKeeper()
 	CheckTimer();
 }
 
+//キーパー操作をしているときの移動
 void AGoalKeeper::MoveRight(float value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, value);
-
 }
 
 void AGoalKeeper::MoveLeft(float value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, value);
-
 }
 
 void AGoalKeeper::StartJump()

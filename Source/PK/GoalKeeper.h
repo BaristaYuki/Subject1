@@ -44,6 +44,7 @@ public:
 	void MoveKeeper();
 	
 	FTimerHandle CountdownTimerHandle;
+	FVector Direction;
 
 	UPROPERTY(EditAnywhere)
 	int32 CountdownTime;
