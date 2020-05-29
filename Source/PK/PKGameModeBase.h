@@ -27,6 +27,10 @@ protected:
     /** The widget class we will use as our menu when the game starts. (ゲーム開始時にメニューとして使用するウィジェット クラスです) */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
         TSubclassOf<UUserWidget> StartingWidgetClass;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+        TSubclassOf<UUserWidget> KikkerWidgetClass;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+        TSubclassOf<UUserWidget> KeeperWidgetClass;
 
     /** The widget instance that we are using as our menu.  (メニューとして使用するウィジェット インスタンスです) */
     UPROPERTY()

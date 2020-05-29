@@ -42,7 +42,6 @@ void AGoalKeeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveLeft", this, &AGoalKeeper::MoveLeft);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AGoalKeeper::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AGoalKeeper::StopJump);
-
 }
 
 void AGoalKeeper::DecideDirection()
@@ -66,8 +65,8 @@ void AGoalKeeper::DecideDirection()
 	}*/
 
 
-	Z_Move = FMath::RandRange(0, 30);
-	Y_Move = FMath::RandRange(-30, 30);
+	Z_Move = FMath::RandRange(0, 20);
+	Y_Move = FMath::RandRange(-40, 40);
 	GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &AGoalKeeper::MoveKeeper, 0.05f, true);
 }
 
@@ -77,7 +76,7 @@ void AGoalKeeper::Init()
 	Loc = FVector(-480.0f, 0.0f, 79.0f);
 	SetActorLocation(Loc);
 	GetWorldTimerManager().ClearTimer(CountdownTimerHandle);
-	CountdownTime = 10;
+	CountdownTime = 12;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Init"), true, FVector2D(3.0f, 3.0f));
 }
 

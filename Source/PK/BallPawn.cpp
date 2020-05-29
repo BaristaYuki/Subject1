@@ -18,7 +18,7 @@ ABallPawn::ABallPawn()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("UScene"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("MyCamera"));
 	CameraComponent->SetupAttachment(RootComponent);
-	CameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	CameraComponent->SetRelativeLocation(CameraRelativeLocation);
 	//FVector RootLocation = RootComponent->GetComponentLocation();  こいつはエディタをクラッシュさせる。RootComponentには実体がない!?
 
 	//シュートターゲット用のメッシュのアタッチ
@@ -80,6 +80,7 @@ void ABallPawn::Shoot()
 		Ball->ShootInDirection(TargetDirection);
 		Kicked = true;
 	}
+	AddScore();
 }
 
 void ABallPawn::SpawnBall()
@@ -142,5 +143,12 @@ void ABallPawn::ShootRandom()
 		TargetDirection = FVector(-500.0f, seed_Y, seed_Z);
 		Ball->ShootInDirection(TargetDirection);
 		Kicked = true;
+	}
+}
+
+void ABallPawn::AddScore()
+{
+	if (CheckGoal) {
+		Score_1P++;
 	}
 }

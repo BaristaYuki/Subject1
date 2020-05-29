@@ -48,6 +48,9 @@ public:
 	void SpawnBall();
 	void MoveTargetY(float AxisValue);
 	void MoveTargetZ(float AxisValue);
+
+	UFUNCTION(BluePrintCallable)
+	void AddScore();
 	FVector Temp;
 	bool Kicked;
 
@@ -67,12 +70,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector RootLocation = FVector(450.0f, 0.0f, 100.0f);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector CameraRelativeLocation = FVector(200.0f, 0.0f, 0.0f);
 
 	//１つだけBallをインスタンス化する
 	ABall* Ball;
 	UPROPERTY(BluePrintReadWrite)
-	int32 Score_1P;
+	int32 Score_1P = 0;
 	UPROPERTY(BluePrintReadWrite)
-	int32 Score_2P;
+	int32 Score_2P = 0;
+	UPROPERTY(BluePrintReadWrite)
+	bool CheckGoal;
 
 };
