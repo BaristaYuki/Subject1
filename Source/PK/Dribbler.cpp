@@ -70,7 +70,6 @@ void ADribbler::Tick(float DeltaTime)
 		Camera_Rotation = Controller->GetControlRotation();
 		D_Rotation = FRotator(0, Camera_Rotation.Yaw, 0);
 		Dir = FRotationMatrix(D_Rotation).GetUnitAxis(EAxis::X);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("HItture")), true, FVector2D(3.0f, 3.0f));
 		Ball->Dribble(Dir);
 		IfHit = false;
 	}
