@@ -37,5 +37,5 @@ public:
 
 	void ShootInDirection(FVector ShootDirection);
 
-
+	void Dribble(FVector Dir);
 };
