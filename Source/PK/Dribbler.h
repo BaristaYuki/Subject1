@@ -35,7 +35,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool IfHit;
+	bool bIfHit;
 
 protected:
 
@@ -53,7 +53,8 @@ protected:
 
 	void SpawnBall();
 
-	void Dribble();
+	void MoveForwardFixed();
+	bool bTouched;
 
 protected:
 	// APawn interface
@@ -77,6 +78,10 @@ public:
 
 	FRotator D_Rotation;
 	FRotator Camera_Rotation;
+
+	FRotator Rotation;
+	FRotator YawRotation;
+	FVector Direction;
 
 	FVector Dir;
 };

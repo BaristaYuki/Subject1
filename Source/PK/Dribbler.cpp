@@ -21,12 +21,13 @@ ADribbler::ADribbler()
 	//GetCapsuleComponent()->SetCollisionProfileName(TEXT("OverlapBegin"));
 	//GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
 
+	//コリジョンの設定とHItイベントのデリゲートに関数を追加
 	CollisionMesh = nullptr;
 	CollisionMesh = CreateDefaultSubobject<UBoxComponent>(TEXT("Collision Mesh"));
 	CollisionMesh->SetupAttachment(RootComponent);
-	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
-	CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
-
+	CollisionMesh->SetGenerateOverlapEvents(true);
+	//CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
+	//CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -36,6 +37,8 @@ ADribbler::ADribbler()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+
+	bTouched = false;
 
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -59,19 +62,22 @@ void ADribbler::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnBall();
+	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
+	CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Begin")), true, FVector2D(3.0f, 3.0f));
 }
 
 void ADribbler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (IfHit)
+	if (bIfHit)
 	{
-		Camera_Rotation = Controller->GetControlRotation();
-		D_Rotation = FRotator(0, Camera_Rotation.Yaw, 0);
-		Dir = FRotationMatrix(D_Rotation).GetUnitAxis(EAxis::X);
-		Ball->Dribble(Dir);
-		IfHit = false;
+		//Camera_Rotation = Controller->GetControlRotation();
+		//D_Rotation = FRotator(0, Camera_Rotation.Yaw, 0);
+		//Dir = FRotationMatrix(D_Rotation).GetUnitAxis(EAxis::X);
+		Ball->Dribble(Direction);
+		bIfHit = false;
 	}
 }
 
@@ -104,18 +110,31 @@ void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ADribbler::LookUpAtRate);
 }
 
+//Ballとだけoverlapした場合ドリブルする
 void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Camera_Rotation = Controller->GetControlRotation();
-	D_Rotation = FRotator(0, Camera_Rotation.Yaw, 0);
-	Dir = FRotationMatrix(D_Rotation).GetUnitAxis(EAxis::X);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("waste")), true, FVector2D(3.0f, 3.0f));
-	Ball->Dribble(Dir);
+
+	FName tag = "Ball";
+	//FName Tag = Hit->ComponentTags[0];
+	//FString Str = Tag.ToString();
+
+	if (OtherComp->ComponentHasTag(tag))
+	{
+		bTouched = true;
+		Rotation = Controller->GetControlRotation();
+		FRotator YawRotation(0, Rotation.Yaw, 0);
+		// overlapしたらカメラの方向からベクトル取得
+		Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+
+		bIfHit = true;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
+	}
 }
 
 void ADribbler::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	IfHit = true;
+	
 }
 
 void ADribbler::TurnAtRate(float Rate)
@@ -134,14 +153,24 @@ void ADribbler::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		if (!bTouched) {
+			Rotation = Controller->GetControlRotation();
+			FRotator YawRotation(0, Rotation.Yaw, 0);
+			// overlapしたらカメラの方向からベクトル取得
+			Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+			AddMovementInput(Direction, Value);
+		}
+		else {
+			AddMovementInput(Direction, Value);
+		}
 	}
+}
+
+void ADribbler::MoveForwardFixed()
+{
+	
+
 }
 
 void ADribbler::MoveRight(float Value)

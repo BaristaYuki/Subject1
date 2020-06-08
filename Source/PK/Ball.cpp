@@ -14,6 +14,7 @@ ABall::ABall()
 	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	
 	RootComponent = CollisionComponent;
 	//オブジェクトだけ作成　アタッチはShootInDirection()で行う
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
@@ -25,7 +26,7 @@ ABall::ABall()
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
-
+	CollisionComponent->SetGenerateOverlapEvents(true);
 }
 
 // Called every frame
@@ -59,12 +60,11 @@ void ABall::Dribble(FVector Direction)
 	Direction += FVector(0.0f, 0.0f, 5.f);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, Direction.ToString(), true, FVector2D(1.0f, 1.0f));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-	ProjectileMovementComponent->InitialSpeed = 30.f;
+	ProjectileMovementComponent->InitialSpeed = 50.f;
 	ProjectileMovementComponent->MaxSpeed = 10000.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;
 	ProjectileMovementComponent->Bounciness = 0.6f;
 	ProjectileMovementComponent->Velocity = Direction * ProjectileMovementComponent->InitialSpeed;
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("dribble")), true, FVector2D(1.0f, 1.0f));
 }
