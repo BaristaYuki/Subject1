@@ -73,9 +73,6 @@ void ADribbler::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (bIfHit)
 	{
-		//Camera_Rotation = Controller->GetControlRotation();
-		//D_Rotation = FRotator(0, Camera_Rotation.Yaw, 0);
-		//Dir = FRotationMatrix(D_Rotation).GetUnitAxis(EAxis::X);
 		Ball->Dribble(Direction);
 		bIfHit = false;
 	}
@@ -89,10 +86,7 @@ void ADribbler::SpawnBall()
 		FActorSpawnParameters Params;
 		Params.Owner = this;
 		Ball = World->SpawnActor<ABall>(BallClass, GetActorLocation() + FVector(110.0f, 0.0f, 0.0f), FRotator(), Params);
-		if (Ball)
-		{
-			
-		}
+		
 	}
 }
 
@@ -167,12 +161,6 @@ void ADribbler::MoveForward(float Value)
 	}
 }
 
-void ADribbler::MoveForwardFixed()
-{
-	
-
-}
-
 void ADribbler::MoveRight(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
@@ -185,6 +173,8 @@ void ADribbler::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+
+		bTouched = false;
 	}
 }
 

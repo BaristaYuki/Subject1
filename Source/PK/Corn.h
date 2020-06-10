@@ -37,4 +37,6 @@ public:
 	bool bIsHit;
 
 	void CheckHit();
+
+	void Move();
 };

@@ -29,10 +29,16 @@ protected:
 
 	UPROPERTY(EditAnyWhere)
 		class ACorn* Corn;
-	/*TArray<class AShooterWeapon*> Inventory;*/
+	
+	UPROPERTY(EditDefaultsOnly, Category = Corn)
+		TSubclassOf<class ACorn>SubCorn;
+
+	TArray<AActor*>ArrCorn;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void MoveCorn();
 	
 };

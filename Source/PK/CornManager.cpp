@@ -4,6 +4,7 @@
 #include "CornManager.h"
 #include "Corn.h"
 #include "Engine/Engine.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACornManager::ACornManager()
@@ -18,6 +19,17 @@ void ACornManager::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SubCorn = ACorn::StaticClass();
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SubCorn, ArrCorn);
+
+	Corn = Cast<ACorn>(ArrCorn[0]);
+
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(ArrCorn.Num()), true, FVector2D(1.0f, 1.0f));
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("ITRNOt")), true, FVector2D(1.0f, 1.0f));
+	
+	/*
 	World = GetWorld();
 
 	for (TActorIterator<ACorn>CornItr(World); CornItr; ++CornItr)
@@ -25,13 +37,17 @@ void ACornManager::BeginPlay()
 		Corn = *CornItr;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("ITR")), true, FVector2D(1.0f, 1.0f));
 	}
-	
+	*/
 }
 
 // Called every frame
 void ACornManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	MoveCorn();
 }
 
+void ACornManager::MoveCorn()
+{
+	Corn->Move();
+}

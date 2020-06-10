@@ -49,7 +49,7 @@ void ACorn::BeginPlay()
 void ACorn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	Move();
 }
 
 void ACorn::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -75,5 +75,10 @@ void ACorn::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 void ACorn::CheckHit()
 {
 	this->Destroy();
+}
+
+void ACorn::Move()
+{
+	// do something
 }
 

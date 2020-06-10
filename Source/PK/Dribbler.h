@@ -52,8 +52,6 @@ protected:
 	void LookUpAtRate(float Rate);
 
 	void SpawnBall();
-
-	void MoveForwardFixed();
 	bool bTouched;
 
 protected:
