@@ -27,8 +27,6 @@ void ACornManager::BeginPlay()
 	
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(ArrCorn.Num()), true, FVector2D(1.0f, 1.0f));
 	
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("ITRNOt")), true, FVector2D(1.0f, 1.0f));
-	
 	/*
 	World = GetWorld();
 

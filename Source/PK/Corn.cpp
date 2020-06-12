@@ -1,5 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+/*
 
+
+*/
 
 #include "Corn.h"
 #include "Components/BoxComponent.h"
@@ -41,7 +44,7 @@ ACorn::ACorn()
 void ACorn::BeginPlay()
 {
 	Super::BeginPlay();
-	StaticMesh->OnComponentBeginOverlap.AddDynamic(this, &ACorn::OnOverlapBegin);
+	//StaticMesh->OnComponentBeginOverlap.AddDynamic(this, &ACorn::OnOverlapBegin);
 	StaticMesh->OnComponentHit.AddDynamic(this, &ACorn::OnCompHit);
 }
 
@@ -66,12 +69,12 @@ void ACorn::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Tagfasle")), true, FVector2D(3.0f, 3.0f));
 	}
 }
-
+/*
 void ACorn::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	
 }
-
+*/
 void ACorn::CheckHit()
 {
 	this->Destroy();

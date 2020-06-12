@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Dribbler.generated.h"
 
+//DECLARE_DYNAMIC_DELEGATE(FPassDispather)
+
 UCLASS(config = Game)
 class ADribbler : public ACharacter
 {
@@ -37,7 +39,10 @@ public:
 
 	bool bIfHit;
 
+
 protected:
+	
+	bool bPosseceBall;
 
 	virtual void BeginPlay() override;
 
@@ -52,14 +57,24 @@ protected:
 	void LookUpAtRate(float Rate);
 
 	void SpawnBall();
+
 	bool bTouched;
+
+	UFUNCTION()
+		void ShortPass();
+
+	UFUNCTION()
+		void findPeson();
+
+
+		
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 	UPROPERTY(EditDefaultsOnly, Category = Ball)
-		TSubclassOf<class ABall>BallClass;
+	TSubclassOf<class ABall>BallClass;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -69,9 +84,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 	UFUNCTION()
 	void OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
+	UFUNCTION()
+	bool GetbIsPossece();
+
 	ABall* Ball;
 
 	FRotator D_Rotation;
@@ -82,5 +101,8 @@ public:
 	FVector Direction;
 
 	FVector Dir;
+
+	//UPROPERTY(BlueprintAssignable)
+	//	FPassDispather PassDispather;
 };
 

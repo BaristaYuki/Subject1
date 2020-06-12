@@ -1,4 +1,4 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+
 
 #include "Dribbler.h"
 #include "Camera/CameraComponent.h"
@@ -13,6 +13,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 // ADribbler
+
 
 ADribbler::ADribbler()
 {
@@ -90,6 +91,15 @@ void ADribbler::SpawnBall()
 	}
 }
 
+void ADribbler::ShortPass()
+{
+	
+}
+
+void ADribbler::findPeson()
+{
+}
+
 void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
@@ -122,6 +132,7 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 
 
 		bIfHit = true;
+		bPosseceBall = true;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
 	}
 }
@@ -129,6 +140,11 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 void ADribbler::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	
+}
+
+bool ADribbler::GetbIsPossece()
+{
+	return bPosseceBall;
 }
 
 void ADribbler::TurnAtRate(float Rate)

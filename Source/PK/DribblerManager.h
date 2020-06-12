@@ -4,41 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "EngineUtils.h"
-#include "CornManager.generated.h"
+#include "DribblerManager.generated.h"
 
 UCLASS()
-class PK_API ACornManager : public AActor
+class PK_API ADribblerManager : public AActor
 {
 	GENERATED_BODY()
-
+	
 public:	
 	// Sets default values for this actor's properties
-	ACornManager();
+	ADribblerManager();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
-	UPROPERTY()
-	UWorld* World;
-
-	UPROPERTY()
-	FVector Loc;
-
 	UPROPERTY(EditAnyWhere)
-		class ACorn* Corn;
-	
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class ACorn>SubCorn;
+		class ADribbler* Dribbler;
 
-	TArray<AActor*>ArrCorn;
+	UPROPERTY(EditDefaultsOnly, Category = Corn)
+		TSubclassOf<class ADribbler>SubDribbler;
 
+	TArray<AActor*>ArrDribbler;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void MoveCorn();
-	
+	int32 FindBallPossecer();
+
+	int32 DecideDestination();
+
 };
