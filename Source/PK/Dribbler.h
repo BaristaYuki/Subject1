@@ -2,13 +2,18 @@
 
 #pragma once
 
+#include "Delegate.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Dribbler.generated.h"
 
-//DECLARE_DYNAMIC_DELEGATE(FPassDispather)
+//DECLARE_MULTICAST_DELEGATE(FPASSDispather);
 
-UCLASS(config = Game)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPASSDispather);
+
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPassDispather, float, myindex);
+
+UCLASS()
 class ADribbler : public ACharacter
 {
 	GENERATED_BODY()
@@ -37,6 +42,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY()
+	AController* OurController;
+
 	bool bIfHit;
 
 
@@ -56,6 +64,7 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
+	UFUNCTION()
 	void SpawnBall();
 
 	bool bTouched;
@@ -66,7 +75,8 @@ protected:
 	UFUNCTION()
 		void findPeson();
 
-
+	
+	void PassTo();
 		
 
 protected:
@@ -90,6 +100,9 @@ public:
 	
 	UFUNCTION()
 	bool GetbIsPossece();
+
+	UPROPERTY(BlueprintAssignable)
+	FPASSDispather PassDispather;
 
 	ABall* Ball;
 

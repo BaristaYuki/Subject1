@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameFramework/Controller.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DribblerManager.generated.h"
@@ -10,8 +11,8 @@ UCLASS()
 class PK_API ADribblerManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ADribblerManager();
 
@@ -22,16 +23,23 @@ protected:
 	UPROPERTY(EditAnyWhere)
 		class ADribbler* Dribbler;
 
-	UPROPERTY(EditDefaultsOnly, Category = Corn)
+	UPROPERTY(EditDefaultsOnly, Category = Dribbler)
 		TSubclassOf<class ADribbler>SubDribbler;
 
 	TArray<AActor*>ArrDribbler;
+
+	UPROPERTY()
+	AController* OurController;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	int32 FindBallPossecer();
+	uint8_t FindBallPossecer();
 
 	int32 DecideDestination();
+
+	UFUNCTION(BlueprintCallable)
+	void hoge();
 
 };

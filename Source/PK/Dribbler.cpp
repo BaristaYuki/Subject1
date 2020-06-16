@@ -65,8 +65,6 @@ void ADribbler::BeginPlay()
 	SpawnBall();
 	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
 	CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Begin")), true, FVector2D(3.0f, 3.0f));
 }
 
 void ADribbler::Tick(float DeltaTime)
@@ -102,9 +100,8 @@ void ADribbler::findPeson()
 
 void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	// Set up gameplay key bindings
-	check(PlayerInputComponent);
-
+	
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MoveForward2", this, &ADribbler::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ADribbler::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
@@ -112,6 +109,8 @@ void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ADribbler::LookUpAtRate);
+	PlayerInputComponent->BindAction("Pass",IE_Pressed, this, &ADribbler::PassTo);
+	PlayerInputComponent->BindAction("Kick", IE_Released, this, &ADribbler::PassTo);
 }
 
 //Ballとだけoverlapした場合ドリブルする
@@ -133,7 +132,7 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 
 		bIfHit = true;
 		bPosseceBall = true;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
 	}
 }
 
@@ -145,6 +144,14 @@ void ADribbler::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPri
 bool ADribbler::GetbIsPossece()
 {
 	return bPosseceBall;
+}
+
+void ADribbler::PassTo()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Broadcast")), true, FVector2D(3.0f, 3.0f));
+
+	//パスをマネージャーに通知
+	PassDispather.Broadcast();
 }
 
 void ADribbler::TurnAtRate(float Rate)

@@ -57,10 +57,10 @@ void ABall::Dribble(FVector Direction)
 {
 	
 	Direction *= 10.0f;
-	Direction += FVector(0.0f, 0.0f, 5.f);
+	Direction += FVector(0.0f, 0.0f, 3.f);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, Direction.ToString(), true, FVector2D(1.0f, 1.0f));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-	ProjectileMovementComponent->InitialSpeed = 50.f;
+	ProjectileMovementComponent->InitialSpeed = 30.f;
 	ProjectileMovementComponent->MaxSpeed = 10000.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;
