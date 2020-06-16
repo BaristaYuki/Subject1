@@ -48,7 +48,7 @@ void ADribblerManager::BeginPlay()
 	}
 
 	//コントローラの取得
-	AController* OurController = UGameplayStatics::GetPlayerController(this, 0);
+	OurController = UGameplayStatics::GetPlayerController(this, 0);
 	OurController->Possess(Cast<APawn>(ArrDribbler[0]));
 	
 }
@@ -74,9 +74,34 @@ uint8_t ADribblerManager::FindBallPossecer()
 	return -1;
 }
 
-int32 ADribblerManager::DecideDestination()
+//カメラの向きから誰にパスを出すか決める
+int32 ADribblerManager::DecideDestination(uint8_t i)
 {
+	Dribbler = Cast<ADribbler>(ArrDribbler[i]);
+
+	Dribbler->SetDirection();
+	Dribbler->Direction.Normalize();
+
 	return int32();
+}
+
+// 人と人の角度を求めて配列に保持
+void ADribblerManager::MakeVector(TArray<FVector> VecArray, uint8_t index)
+{
+	Dribbler = Cast<ADribbler>(ArrDribbler[index]);
+
+	//ボール保持者の座標
+	FVector BaseVector = Dribbler->GetActorLocation();
+	
+	for (uint8_t i = 0; i < ArrDribbler.Num(); i++)
+	{
+		if (i == index) { continue; }
+		else
+		{
+			VecArray[i] = ArrDribbler[i]->GetActorLocation() - BaseVector;
+		}
+	}
+
 }
 
 //デリゲートで呼び出す関数
@@ -86,4 +111,5 @@ void ADribblerManager::hoge()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("hoge")), true, FVector2D(3.0f, 3.0f));
 	uint8_t m_index = FindBallPossecer();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(m_index), true, FVector2D(3.0f, 3.0f));
+	DecideDestination(m_index);
 }

@@ -69,15 +69,9 @@ protected:
 
 	bool bTouched;
 
+	//デリゲートの通知も行う関数
 	UFUNCTION()
-		void ShortPass();
-
-	UFUNCTION()
-		void findPeson();
-
-	
-	void PassTo();
-		
+	void ShortPass();
 
 protected:
 	// APawn interface
@@ -104,6 +98,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FPASSDispather PassDispather;
 
+	UFUNCTION()
+	void SetDirection();
+
 	ABall* Ball;
 
 	FRotator D_Rotation;
@@ -114,8 +111,5 @@ public:
 	FVector Direction;
 
 	FVector Dir;
-
-	//UPROPERTY(BlueprintAssignable)
-	//	FPassDispather PassDispather;
 };
 

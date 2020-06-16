@@ -26,10 +26,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Dribbler)
 		TSubclassOf<class ADribbler>SubDribbler;
 
+	//Dribblerを入れる配列
+	UPROPERTY()
 	TArray<AActor*>ArrDribbler;
 
 	UPROPERTY()
 	AController* OurController;
+
+	//ボール保持者と他の人との２点間のベクトルを保持する配列
+	UPROPERTY()
+	TArray<FVector>VecArray;
 
 public:	
 	// Called every frame
@@ -37,8 +43,11 @@ public:
 
 	uint8_t FindBallPossecer();
 
-	int32 DecideDestination();
+	int32 DecideDestination(uint8_t i);
 
+	void MakeVector(TArray<FVector>VecArray, uint8_t index);
+
+	//デリゲートの受信側関数
 	UFUNCTION(BlueprintCallable)
 	void hoge();
 

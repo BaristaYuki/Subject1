@@ -94,10 +94,6 @@ void ADribbler::ShortPass()
 	
 }
 
-void ADribbler::findPeson()
-{
-}
-
 void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	
@@ -124,14 +120,9 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 	if (OtherComp->ComponentHasTag(tag))
 	{
 		bTouched = true;
-		Rotation = Controller->GetControlRotation();
-		FRotator YawRotation(0, Rotation.Yaw, 0);
-		// overlapしたらカメラの方向からベクトル取得
-		Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-
-
 		bIfHit = true;
 		bPosseceBall = true;
+		SetDirection();
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
 	}
 }
@@ -146,7 +137,15 @@ bool ADribbler::GetbIsPossece()
 	return bPosseceBall;
 }
 
-void ADribbler::PassTo()
+//カメラの方向からベクトル取得
+void ADribbler::SetDirection()
+{
+	Rotation = Controller->GetControlRotation();
+	FRotator YawRotation(0, Rotation.Yaw, 0);
+	Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+}
+
+void ADribbler::ShortPass()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Broadcast")), true, FVector2D(3.0f, 3.0f));
 
