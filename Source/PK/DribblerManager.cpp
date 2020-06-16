@@ -36,7 +36,6 @@ void ADribblerManager::BeginPlay()
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("kita")), true, FVector2D(3.0f, 3.0f));
 		}
-	
 	}*/
 
 	for (uint8_t i = 0; i < ArrDribbler.Num(); i++)
@@ -46,11 +45,9 @@ void ADribblerManager::BeginPlay()
 		//デリゲートに追加
 		Dribbler->PassDispather.AddDynamic(this, &ADribblerManager::hoge);
 	}
-
 	//コントローラの取得
 	OurController = UGameplayStatics::GetPlayerController(this, 0);
 	OurController->Possess(Cast<APawn>(ArrDribbler[0]));
-	
 }
 
 // Called every frame
@@ -101,13 +98,11 @@ void ADribblerManager::MakeVector(TArray<FVector> VecArray, uint8_t index)
 			VecArray[i] = ArrDribbler[i]->GetActorLocation() - BaseVector;
 		}
 	}
-
 }
 
 //デリゲートで呼び出す関数
 void ADribblerManager::hoge()
 {
-
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("hoge")), true, FVector2D(3.0f, 3.0f));
 	uint8_t m_index = FindBallPossecer();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(m_index), true, FVector2D(3.0f, 3.0f));

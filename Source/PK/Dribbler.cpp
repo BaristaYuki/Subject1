@@ -89,11 +89,6 @@ void ADribbler::SpawnBall()
 	}
 }
 
-void ADribbler::ShortPass()
-{
-	
-}
-
 void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	
@@ -105,8 +100,7 @@ void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ADribbler::LookUpAtRate);
-	PlayerInputComponent->BindAction("Pass",IE_Pressed, this, &ADribbler::PassTo);
-	PlayerInputComponent->BindAction("Kick", IE_Released, this, &ADribbler::PassTo);
+	PlayerInputComponent->BindAction("Pass",IE_Pressed, this, &ADribbler::ShortPass);
 }
 
 //Ball‚Æ‚¾‚¯overlap‚µ‚½ê‡ƒhƒŠƒuƒ‹‚·‚é
@@ -129,7 +123,6 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 
 void ADribbler::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	
 }
 
 bool ADribbler::GetbIsPossece()
