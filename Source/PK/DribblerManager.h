@@ -41,11 +41,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//ボール所有者探す
 	uint8_t FindBallPossecer();
+	//カメラの向きから誰にパスを出すか決める
+	void DecideDestination(uint8_t i);
 
-	int32 DecideDestination(uint8_t i);
+	float CulcTheta(FVector Base, FVector V);
 
-	void MakeVector(TArray<FVector>VecArray, uint8_t index);
+	void FindMinDegree(uint8_t index, FVector PasserVec);
+
+	FVector SetPassVector(uint8_t index);
+
+	uint8_t ReceiverIndex;
 
 	//デリゲートの受信側関数
 	UFUNCTION(BlueprintCallable)

@@ -101,6 +101,9 @@ public:
 	UFUNCTION()
 	void SetDirection();
 
+	UFUNCTION()
+	void Pass(FVector Vec);
+
 	ABall* Ball;
 
 	FRotator D_Rotation;

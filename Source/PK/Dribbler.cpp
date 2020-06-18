@@ -77,6 +77,11 @@ void ADribbler::Tick(float DeltaTime)
 	}
 }
 
+void ADribbler::Pass(FVector Vec)
+{
+	Ball->Pass(Vec);
+}
+
 void ADribbler::SpawnBall()
 {
 	UWorld* World = GetWorld();

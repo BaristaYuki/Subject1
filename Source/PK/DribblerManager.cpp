@@ -7,6 +7,7 @@
 #include "Engine/Engine.h"
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values
 ADribblerManager::ADribblerManager()
@@ -23,7 +24,6 @@ void ADribblerManager::BeginPlay()
 	SubDribbler = ADribbler::StaticClass();
 	//ドリブラーを配列に格納
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SubDribbler, ArrDribbler);
-
 	/*
 	for (TActorIterator<ADribbler>DribblerItr(GetWorld()); DribblerItr; ++DribblerItr)
 	{
@@ -72,19 +72,22 @@ uint8_t ADribblerManager::FindBallPossecer()
 }
 
 //カメラの向きから誰にパスを出すか決める
-int32 ADribblerManager::DecideDestination(uint8_t i)
+void ADribblerManager::DecideDestination(uint8_t i)
 {
 	Dribbler = Cast<ADribbler>(ArrDribbler[i]);
 
+	//向きからベクトルセット->Dribbler.Direction
 	Dribbler->SetDirection();
+	//一応正規化
 	Dribbler->Direction.Normalize();
 
-	return int32();
+	//パス出す相手を決める
+	FindMinDegree(i, Dribbler->Direction);
 }
-
-// 人と人の角度を求めて配列に保持
-void ADribblerManager::MakeVector(TArray<FVector> VecArray, uint8_t index)
+// 人と人の角度を求めて配列に保持 配列いらない
+void ADribblerManager::FindMinDegree(uint8_t index, FVector PasserVec)
 {
+	float MinDegree = 400;
 	Dribbler = Cast<ADribbler>(ArrDribbler[index]);
 
 	//ボール保持者の座標
@@ -95,16 +98,52 @@ void ADribblerManager::MakeVector(TArray<FVector> VecArray, uint8_t index)
 		if (i == index) { continue; }
 		else
 		{
-			VecArray[i] = ArrDribbler[i]->GetActorLocation() - BaseVector;
+			//VecArray[i] = ArrDribbler[i]->GetActorLocation() - BaseVector;
+			if (MinDegree > CulcTheta(PasserVec, ArrDribbler[i]->GetActorLocation() - BaseVector))
+			{
+				ReceiverIndex = i;
+			}
 		}
 	}
 }
 
-//デリゲートで呼び出す関数
+float ADribblerManager::CulcTheta(FVector Base, FVector V)
+{
+	float Degree;
+	FVector Vec;
+	float CosTheta;
+
+	//Base.Size() * V.Size()* CosTheta = Vec;
+	CosTheta = Vec.DotProduct(Base, V) / (Base.Size() * V.Size());
+
+	//角度求める
+	Degree = FMath::Abs(FMath::Acos(CosTheta));
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::SanitizeFloat(Degree), true, FVector2D(3.0f, 3.0f));
+
+	return Degree;
+}
+
+FVector ADribblerManager::SetPassVector(uint8_t index)
+{
+	FVector MyVec = ArrDribbler[ReceiverIndex]->GetActorLocation() - ArrDribbler[index]->GetActorLocation();
+
+	return MyVec;
+}
+
 void ADribblerManager::hoge()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("hoge")), true, FVector2D(3.0f, 3.0f));
+	//まずボール持っている人探す
 	uint8_t m_index = FindBallPossecer();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::FromInt(m_index), true, FVector2D(3.0f, 3.0f));
+	
 	DecideDestination(m_index);
+
+	//パスをする
+	Dribbler = Cast<ADribbler>(ArrDribbler[m_index]);
+	Dribbler->Pass(SetPassVector(m_index));
+	
+	//コントローラの所有者の変更
+	OurController->Possess(Cast<APawn>(ArrDribbler[ReceiverIndex]));
 }

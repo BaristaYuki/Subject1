@@ -38,4 +38,6 @@ public:
 	void ShootInDirection(FVector ShootDirection);
 
 	void Dribble(FVector Dir);
+
+	void Pass(FVector Dir);
 };
