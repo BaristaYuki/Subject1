@@ -40,6 +40,7 @@ ADribbler::ADribbler()
 	bUseControllerRotationRoll = false;
 
 	bTouched = false;
+	bPosseceBall = false;
 
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -62,7 +63,7 @@ ADribbler::ADribbler()
 void ADribbler::BeginPlay()
 {
 	Super::BeginPlay();
-	SpawnBall();
+	//SpawnBall();
 	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
 	CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
 }
@@ -70,7 +71,7 @@ void ADribbler::BeginPlay()
 void ADribbler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (bIfHit)
+	if (bIfHit & bPosseceBall)
 	{
 		Ball->Dribble(Direction);
 		bIfHit = false;
@@ -82,6 +83,7 @@ void ADribbler::Pass(FVector Vec)
 	Ball->Pass(Vec);
 }
 
+//1度だけ呼び出す 別のクラスでやったほうがいいかも
 void ADribbler::SpawnBall()
 {
 	UWorld* World = GetWorld();
@@ -116,11 +118,11 @@ void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 	//FName Tag = Hit->ComponentTags[0];
 	//FString Str = Tag.ToString();
 
-	if (OtherComp->ComponentHasTag(tag))
+	if (OtherComp->ComponentHasTag(tag) & bPosseceBall)
 	{
 		bTouched = true;
 		bIfHit = true;
-		bPosseceBall = true;
+		//bPosseceBall = true;
 		SetDirection();
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
 	}
@@ -133,6 +135,11 @@ void ADribbler::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPri
 bool ADribbler::GetbIsPossece()
 {
 	return bPosseceBall;
+}
+
+void ADribbler::SetIsPossece(bool b)
+{
+	bPosseceBall = b;
 }
 
 //カメラの方向からベクトル取得

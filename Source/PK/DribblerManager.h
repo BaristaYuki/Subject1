@@ -21,10 +21,12 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnyWhere)
-		class ADribbler* Dribbler;
+	class ADribbler* Dribbler;
+	UPROPERTY(EditAnywhere)
+	class ADribbler* Dribbler2;
 
 	UPROPERTY(EditDefaultsOnly, Category = Dribbler)
-		TSubclassOf<class ADribbler>SubDribbler;
+	TSubclassOf<class ADribbler>SubDribbler;
 
 	//Dribbler‚ð“ü‚ê‚é”z—ñ
 	UPROPERTY()

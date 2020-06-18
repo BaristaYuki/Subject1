@@ -72,7 +72,7 @@ void ABall::Dribble(FVector Direction)
 void ABall::Pass(FVector Direction)
 {
 
-	Direction *= 50.0f;
+	Direction *= 10.0f;
 	Direction += FVector(0.0f, 0.0f, 3.f);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, Direction.ToString(), true, FVector2D(1.0f, 1.0f));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);

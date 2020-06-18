@@ -1,5 +1,6 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
+//Dribblerと書いてあるがドリブルだけするクラスではない。１選手のクラス　（名前変えたい。。）
 #pragma once
 
 #include "Delegate.h"
@@ -64,9 +65,6 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
-	UFUNCTION()
-	void SpawnBall();
-
 	bool bTouched;
 
 	//デリゲートの通知も行う関数
@@ -95,6 +93,9 @@ public:
 	UFUNCTION()
 	bool GetbIsPossece();
 
+	UFUNCTION()
+	void SetIsPossece(bool b);
+
 	UPROPERTY(BlueprintAssignable)
 	FPASSDispather PassDispather;
 
@@ -103,6 +104,9 @@ public:
 
 	UFUNCTION()
 	void Pass(FVector Vec);
+
+	UFUNCTION()
+	void SpawnBall();
 
 	ABall* Ball;
 
