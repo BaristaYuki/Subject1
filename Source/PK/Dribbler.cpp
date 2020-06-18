@@ -9,7 +9,6 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine/Engine.h"
-#include "Ball.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ADribbler
@@ -63,7 +62,6 @@ ADribbler::ADribbler()
 void ADribbler::BeginPlay()
 {
 	Super::BeginPlay();
-	//SpawnBall();
 	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &ADribbler::OnOverlapBegin);
 	CollisionMesh->OnComponentHit.AddDynamic(this, &ADribbler::OnCompHit);
 }
@@ -71,29 +69,11 @@ void ADribbler::BeginPlay()
 void ADribbler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (bIfHit & bPosseceBall)
+	/*if (bIfHit & bPosseceBall)
 	{
 		Ball->Dribble(Direction);
 		bIfHit = false;
-	}
-}
-
-void ADribbler::Pass(FVector Vec)
-{
-	Ball->Pass(Vec);
-}
-
-//1度だけ呼び出す 別のクラスでやったほうがいいかも
-void ADribbler::SpawnBall()
-{
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		FActorSpawnParameters Params;
-		Params.Owner = this;
-		Ball = World->SpawnActor<ABall>(BallClass, GetActorLocation() + FVector(110.0f, 0.0f, 0.0f), FRotator(), Params);
-		
-	}
+	}*/
 }
 
 void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -113,17 +93,14 @@ void ADribbler::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 //Ballとだけoverlapした場合ドリブルする
 void ADribbler::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
 	FName tag = "Ball";
-	//FName Tag = Hit->ComponentTags[0];
-	//FString Str = Tag.ToString();
-
+	
 	if (OtherComp->ComponentHasTag(tag) & bPosseceBall)
 	{
 		bTouched = true;
-		bIfHit = true;
-		//bPosseceBall = true;
-		SetDirection();
+		//bIfHit = true;
+		HitDispather.Broadcast();
+		//SetDirection();
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DribblerTagTrue")), true, FVector2D(3.0f, 3.0f));
 	}
 }

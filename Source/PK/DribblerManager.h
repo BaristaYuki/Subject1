@@ -22,11 +22,18 @@ protected:
 
 	UPROPERTY(EditAnyWhere)
 	class ADribbler* Dribbler;
+
 	UPROPERTY(EditAnywhere)
 	class ADribbler* Dribbler2;
 
 	UPROPERTY(EditDefaultsOnly, Category = Dribbler)
 	TSubclassOf<class ADribbler>SubDribbler;
+
+	UPROPERTY(EditDefaultsOnly, Category = Ball)
+	TSubclassOf<class ABall>BallClass;
+
+	UPROPERTY()
+	ABall* Ball;
 
 	//Dribblerを入れる配列
 	UPROPERTY()
@@ -39,6 +46,13 @@ protected:
 	UPROPERTY()
 	TArray<FVector>VecArray;
 
+	uint8_t ReceiverIndex;
+
+	uint8_t MyIndex;
+
+	UFUNCTION()
+	void SpawnBall();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -46,15 +60,18 @@ public:
 	//ボール所有者探す
 	uint8_t FindBallPossecer();
 	//カメラの向きから誰にパスを出すか決める
-	void DecideDestination(uint8_t i);
+	void DecideDestination();
 
-	float CulcTheta(FVector Base, FVector V);
+	float CulcTheta(const FVector Base, const FVector V);
 
-	void FindMinDegree(uint8_t index, FVector PasserVec);
+	void FindMinDegree(const FVector PasserVec);
 
-	FVector SetPassVector(uint8_t index);
+	FVector SetPassVector();
 
-	uint8_t ReceiverIndex;
+	void Pass(const FVector Vec);
+
+	UFUNCTION(BlueprintCallable)
+	void Dribble();
 
 	//デリゲートの受信側関数
 	UFUNCTION(BlueprintCallable)

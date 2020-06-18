@@ -11,6 +11,7 @@
 //DECLARE_MULTICAST_DELEGATE(FPASSDispather);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPASSDispather);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHitDispather);
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPassDispather, float, myindex);
 
@@ -65,6 +66,7 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
+	//蹴りだしたボールに向かうためのフラグ
 	bool bTouched;
 
 	//デリゲートの通知も行う関数
@@ -99,14 +101,11 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FPASSDispather PassDispather;
 
+	UPROPERTY(BlueprintAssignable)
+	FHitDispather HitDispather;
+
 	UFUNCTION()
 	void SetDirection();
-
-	UFUNCTION()
-	void Pass(FVector Vec);
-
-	UFUNCTION()
-	void SpawnBall();
 
 	ABall* Ball;
 
